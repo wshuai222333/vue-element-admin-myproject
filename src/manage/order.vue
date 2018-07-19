@@ -25,7 +25,7 @@
                 <el-table-column label="金额" prop="Amount"></el-table-column>
                 <el-table-column label="预留手机号" prop="MobileNo"></el-table-column>
                 <el-table-column label="收款银行" prop="BankName"></el-table-column>
-                <el-table-column label="收款人" prop="CreateTime"></el-table-column>
+                <el-table-column label="收款人" prop="AcctName"></el-table-column>
                 <el-table-column label="手续费费率" prop="TradeRate"></el-table-column>
                 <el-table-column label="状态" prop="State" :formatter="formatter"></el-table-column>
                 <el-table-column label="创建时间" prop="CreateTime"></el-table-column>
