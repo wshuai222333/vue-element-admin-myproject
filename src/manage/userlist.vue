@@ -24,14 +24,14 @@
         <el-table-column label="用户名" prop="UserName"></el-table-column>
         <el-table-column label="电话" prop="Phone"></el-table-column>
         <el-table-column label="创建时间" prop="CreateTime"></el-table-column>
-        <el-table-column label="会员等级">
-          <template slot-scope="scope">
+        <el-table-column label="会员等级" prop="Memberlevel">
+          <!-- <template slot-scope="scope">
             <el-select @change="onMemberlevel(scope.row)" v-model="scope.row.Memberlevel" placeholder="请选择">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
 
-          </template>
+          </template> -->
         </el-table-column>
       </el-table>
       <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange">
