@@ -34,7 +34,7 @@
           </template> -->
         </el-table-column>
       </el-table>
-      <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange">
+      <el-pagination background layout="total,prev, pager, next" :total="total" @current-change="handleCurrentChange">
       </el-pagination>
     </div>
   </div>

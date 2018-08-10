@@ -1,9 +1,7 @@
 <template>
 <div class="body">
 
- 
- 
-</div>
+ </div>
 </template>
 <script type="text/javascript">
 export default {
