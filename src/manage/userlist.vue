@@ -24,6 +24,7 @@
         <el-table-column label="用户名" prop="UserName"></el-table-column>
         <el-table-column label="电话" prop="Phone"></el-table-column>
         <el-table-column label="创建时间" prop="CreateTime"></el-table-column>
+        <el-table-column label="积分" prop="Integral"></el-table-column>
         <el-table-column label="会员等级" prop="Memberlevel">
           <!-- <template slot-scope="scope">
             <el-select @change="onMemberlevel(scope.row)" v-model="scope.row.Memberlevel" placeholder="请选择">
