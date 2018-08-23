@@ -27,6 +27,11 @@ export default new Router({
                     component: manage('order')
                 },
                 {
+                    path: '/agentorder',
+                    name: 'agentorder',
+                    component: manage('agentorder')
+                },
+                {
                     path: '/userlist',
                     name: 'userlist',
                     component: manage('userlist')

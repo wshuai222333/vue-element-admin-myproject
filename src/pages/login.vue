@@ -2,7 +2,7 @@
   <div class="fullscreen">
     <div class="login-box">
       <div style="text-align: center">
-        <img src="../assets/logo.png" alt="" class="logo">
+        <!-- <img src="../assets/logo.png" alt="" class="logo"> -->
       </div>
       <p class="text-tips">你好，欢迎登录</p>
       <form action="" class="login-form">

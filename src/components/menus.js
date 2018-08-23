@@ -13,6 +13,11 @@ const menus = [{
             name: 'order',
             label: '订单管理',
 
+        }, {
+            id: 'agentorder',
+            name: 'agentorder',
+            label: '商户订单管理',
+
         }]
     },
     {
