@@ -22,6 +22,15 @@
           </el-select>
         </el-col>
       </el-row>
+
+      <el-row>
+        <el-col :span="12">交易日期
+          <el-date-picker v-model="tradetimes" type="daterange" value-format="yyyy-MM-dd HH:mm:ss" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+          </el-date-picker>
+        </el-col>
+
+      </el-row>
+
       <el-row>
         <el-col :span="8">
           <m-button type="info" @click="onQueryClick(1)">查询</m-button>
@@ -29,8 +38,7 @@
       </el-row>
 
       <p></p>
-      
-      
+
       <el-table :data="tableData">
         <el-table-column label="#" type="index"></el-table-column>
         <el-table-column label="订单号">
@@ -44,9 +52,9 @@
         <el-table-column label="收款银行" prop="BankName"></el-table-column>
         <el-table-column label="收款人" prop="AcctName"></el-table-column>
         <el-table-column label="手续费费率" prop="TradeRate"></el-table-column>
-        <el-table-column label="佣金" prop="Profits"></el-table-column>
+        <el-table-column label="手续费" prop="Poundage"></el-table-column>
         <el-table-column label="状态" prop="State" :formatter="formatter"></el-table-column>
-        <el-table-column label="创建时间" prop="CreateTime"></el-table-column>
+        <el-table-column label="交易时间" prop="TradeTime"></el-table-column>
       </el-table>
       <el-pagination background layout="total,prev, pager, next" :total="total" @current-change="handleCurrentChange">
       </el-pagination>
@@ -81,7 +89,10 @@ export default {
           label: "交易失败"
         }
       ],
-      state: -1
+      state: -1,
+      tradetimes: [],
+      begintime: "",
+      endtime: ""
     };
   },
   methods: {
@@ -107,6 +118,13 @@ export default {
       this.onQueryClick(val);
     },
     onQueryClick: function(pageindex) {
+      if (this.tradetimes != null) {
+        this.begintime = this.tradetimes[0];
+        this.endtime = this.tradetimes[1];
+      } else {
+        this.begintime = null;
+        this.endtime = null;
+      }
       //添加交易请求
       this.$http
         .post(
@@ -115,7 +133,9 @@ export default {
             UserName: this.username,
             Phone: this.phone,
             State: this.state,
-            IsQrcode:0,
+            IsQrcode: 0,
+            BeginTime: this.begintime,
+            EndTime: this.endtime,
             pageindex: pageindex,
             pagesize: 10
           })
@@ -130,7 +150,6 @@ export default {
               if (response.Status == 100) {
                 this.total = response.Data.TotalItems;
                 this.tableData = response.Data.Items;
-                t;
               } else {
                 this.$message(response.Message);
               }
@@ -143,8 +162,7 @@ export default {
             console.log(error);
           }
         );
-    },
-   
+    }
   },
   mounted() {
     this.onQueryClick(1);

@@ -22,7 +22,7 @@
 
       <el-row>
         <el-col :span="12">交易日期
-          <el-date-picker v-model="tradetimes" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker v-model="tradetimes" type="daterange" value-format="yyyy-MM-dd HH:mm:ss" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </el-col>
 
@@ -51,8 +51,8 @@
         <el-table-column label="交易金额" prop="Amount"></el-table-column>
         <el-table-column label="商户手续费费率" prop="TradeRate"></el-table-column>
         <el-table-column label="商户手续费" prop="Poundage"></el-table-column>
+        <el-table-column label="协议手续费率" prop="AgentRate"></el-table-column>
         <el-table-column label="商户利润" prop="Profits"></el-table-column>
-        <el-table-column label="协议费率" prop="AgentRate"></el-table-column>
         <el-table-column label="状态" prop="State" :formatter="formatter"></el-table-column>
         <el-table-column label="交易时间" prop="TradeTime"></el-table-column>
       </el-table>
@@ -132,6 +132,9 @@ export default {
       if (this.tradetimes != null) {
         this.begintime = this.tradetimes[0];
         this.endtime = this.tradetimes[1];
+      } else {
+        this.begintime = null;
+        this.endtime = null;
       }
       //添加交易请求
       this.$http
@@ -169,7 +172,7 @@ export default {
             console.log(error);
           }
         );
-        this.getQueryTotal();
+      this.getQueryTotal();
     },
     getQueryTotal: function() {
       this.$http
@@ -180,19 +183,14 @@ export default {
             TradeOrderId: this.orderid,
             BeginTime: this.begintime,
             EndTime: this.endtime
-         })
+          })
         )
         .then(
           response => {
-            debugger;
-            if (
-              response.Data &&
-              response.Data != null &&
-              response.Data != undefined
-            ) {
+            if (response.Data != null && response.Data != undefined) {
               if (response.Status == 100) {
                 this.totalProfits = response.Data;
-               } else {
+              } else {
                 this.$message(response.Message);
               }
             } else {

@@ -70,7 +70,7 @@ export default {
      * @param {*} Mac MAC
      */
     GetSign(AgentId, TimesTamp, Ip, Mac) {
-        debugger;
+
         let jsonData = 'AgentId=' + AgentId + "&TimesTamp=" + TimesTamp + "&Ip=" + Ip + "&Mac=" + Mac + process.env.USER_KEY;
         let sign = CryptoJS.MD5(jsonData) + "";
         return sign.toUpperCase();
@@ -166,7 +166,6 @@ export default {
      * @param {*} str 要解密的参数
      */
     GetCheckValue(card) {
-        debugger;
         return CryptoJS.MD5(card.version + card.cust_id + card.ord_id + card.sub_mer_id + card.subject + card.gate_id + Number(card.trans_amt).toFixed(2) + card.card_id + card.mobile_no + card.acct_name + card.acct_idcard + card.bank_num + card.acct_cardno + card.trade_rate + card.draw_fee + card.ret_url + card.bg_ret_url + card.mer_priv + card.extension + "2808618585792A6BE6C1DCDED39C3684") + "";
     }
 }
