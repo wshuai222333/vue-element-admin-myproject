@@ -32,6 +32,11 @@ export default new Router({
                     component: manage('agentorder')
                 },
                 {
+                    path: '/qrcodeorder',
+                    name: 'qrcodeorder',
+                    component: manage('qrcodeorder')
+                },
+                {
                     path: '/userlist',
                     name: 'userlist',
                     component: manage('userlist')

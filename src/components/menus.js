@@ -11,7 +11,12 @@ const menus = [{
         submenu: [{
             id: 'order',
             name: 'order',
-            label: '订单管理',
+            label: '用户订单管理',
+
+        }, {
+            id: 'qrcodeorder',
+            name: 'qrcodeorder',
+            label: '二维码订单管理',
 
         }, {
             id: 'agentorder',

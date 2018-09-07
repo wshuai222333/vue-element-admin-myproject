@@ -21,7 +21,6 @@
             </el-option>
           </el-select>
         </el-col>
-
       </el-row>
       <el-row>
         <el-col :span="8">
@@ -30,6 +29,8 @@
       </el-row>
 
       <p></p>
+      
+      
       <el-table :data="tableData">
         <el-table-column label="#" type="index"></el-table-column>
         <el-table-column label="订单号">
@@ -105,7 +106,6 @@ export default {
     handleCurrentChange(val) {
       this.onQueryClick(val);
     },
-
     onQueryClick: function(pageindex) {
       //添加交易请求
       this.$http
@@ -115,6 +115,7 @@ export default {
             UserName: this.username,
             Phone: this.phone,
             State: this.state,
+            IsQrcode:0,
             pageindex: pageindex,
             pagesize: 10
           })
@@ -142,7 +143,8 @@ export default {
             console.log(error);
           }
         );
-    }
+    },
+   
   },
   mounted() {
     this.onQueryClick(1);
