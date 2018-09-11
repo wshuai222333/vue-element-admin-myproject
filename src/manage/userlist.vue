@@ -23,7 +23,7 @@
         <el-table-column label="#" type="index"></el-table-column>
         <el-table-column label="用户名" prop="UserName"></el-table-column>
         <el-table-column label="电话" prop="Phone"></el-table-column>
-        <el-table-column label="创建时间" prop="CreateTime"></el-table-column>
+        <el-table-column label="注册时间" prop="CreateTime"></el-table-column>
         <el-table-column label="积分" prop="Integral"></el-table-column>
         <el-table-column label="会员等级" prop="Memberlevel">
           <!-- <template slot-scope="scope">
@@ -33,6 +33,14 @@
             </el-select>
 
           </template> -->
+        </el-table-column>
+        <el-table-column label="二维码权限" prop="IsQrcode">
+          <template slot-scope="scope">
+            <el-select @change="onqrcode(scope.row)" v-model="scope.row.IsQrcode" placeholder="请选择">
+              <el-option v-for="item in qrcodeoptions" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
+          </template>
         </el-table-column>
       </el-table>
       <el-pagination background layout="total,prev, pager, next" :total="total" @current-change="handleCurrentChange">
@@ -62,6 +70,16 @@ export default {
         {
           value: 2,
           label: "金卡会员"
+        }
+      ],
+      qrcodeoptions: [
+        {
+          value: 0,
+          label: "无"
+        },
+        {
+          value: 1,
+          label: "有"
         }
       ]
     };
@@ -118,7 +136,57 @@ export default {
               "/api/User/ModifyMemberlevel",
               Service.Encrypt.DataEncryption({
                 UserAccountId: row.UserAccountId,
-                Memberlevel:row.Memberlevel
+                Memberlevel: row.Memberlevel
+              })
+            )
+            .then(
+              response => {
+                if (
+                  response.Data &&
+                  response.Data != null &&
+                  response.Data != undefined
+                ) {
+                  if (response.Status == 100 && response.Data > 0) {
+                    this.$message({
+                      type: "success",
+                      message: "更改成功!"
+                    });
+                    this.onQueryClick(1);
+                    this.dialogFormVisible = false;
+                  } else {
+                    this.$message(response.Message);
+                  }
+                } else {
+                  this.$message(response.Message);
+                }
+              },
+              error => {
+                this.$message("请求失败！");
+                console.log(error);
+              }
+            );
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消更改"
+          });
+          this.onQueryClick(1);
+        });
+    },
+    onqrcode(row) {
+      this.$confirm("是否确认修改二维码权限?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$http
+            .post(
+              "/api/User/ModifyQrcode",
+              Service.Encrypt.DataEncryption({
+                UserAccountId: row.UserAccountId,
+                IsQrcode: row.IsQrcode
               })
             )
             .then(

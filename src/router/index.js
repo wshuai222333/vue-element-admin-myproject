@@ -42,6 +42,11 @@ export default new Router({
                     component: manage('userlist')
                 },
                 {
+                    path: '/agentlist',
+                    name: 'agentlist',
+                    component: manage('agentlist')
+                },
+                {
                     path: '/problem',
                     name: 'problem',
                     component: manage('problem')

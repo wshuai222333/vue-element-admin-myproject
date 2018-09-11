@@ -205,6 +205,7 @@ export default {
     }
   },
   mounted() {
+    this.tradetimes = [this.getWeekBeforeFormatDate(), this.getNowFormatDate()];
     this.onQueryClick(1);
   }
 };

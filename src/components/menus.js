@@ -36,6 +36,12 @@ const menus = [{
 
             },
             {
+                id: 'agentlist',
+                name: 'agentlist',
+                label: '商户管理',
+
+            },
+            {
                 id: 'problem',
                 name: 'problem',
                 label: '常见问题',
