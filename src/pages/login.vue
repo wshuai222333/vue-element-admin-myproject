@@ -30,6 +30,7 @@
 </template>
 <script>
 import { mapActions } from "vuex";
+import Service from "../_common";
 export default {
   name: "login",
   data() {
@@ -37,29 +38,53 @@ export default {
       username: "",
       password: "",
       isLoging: false,
-      author: window.APP_INFO.author,
-      version: window.APP_INFO.version,
-      appName: window.APP_INFO.appName
+      // author: window.APP_INFO.author,
+      // version: window.APP_INFO.version,
+      // appName: window.APP_INFO.appName
     };
   },
   methods: {
     ...mapActions(["login"]),
     handleLogin() {
       if (!this.username || !this.password) {
-        return this.$message.warning("用户名和密码不能为空");
-      }
-      if (this.username != "wsadmin" || this.password!="ws654321") {
-        return this.$message.warning("用户名和密码不正确");
+        return this.$message.warning("用户名或密码不能为空");
       }
       this.isLoging = true;
-      this.login({
-        username: this.username,
-        password: this.password
-      }).then(res => {
-        this.$message.success("登录成功");
-        this.$router.push({ name: "home" });
-        this.isLoging = false;
-      });
+      this.$http
+        .post(
+          "/api/User/AdminLogin",
+          Service.Encrypt.DataEncryption({
+            UserName: this.username,
+            UserPwd: this.password
+          })
+        )
+        .then(
+          response => {
+            if (
+              response.Data &&
+              response.Data != null &&
+              response.Data != undefined
+            ) {
+              if (response.Status == 100) {
+                debugger;
+                response.Data.UserPwd = null;
+                this.login(response.Data).then(res => {
+                  this.$message.success("登录成功");
+                  this.$router.push({ name: "home" });
+                });
+              } else {
+                this.$message(response.Message);
+              }
+            } else {
+              this.$message(response.Message);
+            }
+          },
+          error => {
+            this.$message("请求失败！");
+            console.log(error);
+          }
+        );
+      this.isLoging = false;
     }
   }
 };

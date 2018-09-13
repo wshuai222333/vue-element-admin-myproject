@@ -52,6 +52,11 @@ export default new Router({
                     component: manage('problem')
                 },
                 {
+                    path: '/advice',
+                    name: 'advice',
+                    component: manage('advice')
+                },
+                {
                     path: '/button',
                     name: 'c-button',
                     component: page('c-button')

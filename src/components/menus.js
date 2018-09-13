@@ -46,6 +46,12 @@ const menus = [{
                 name: 'problem',
                 label: '常见问题',
 
+            },
+            {
+                id: 'advice',
+                name: 'advice',
+                label: '用户留言',
+
             }
         ]
     },
