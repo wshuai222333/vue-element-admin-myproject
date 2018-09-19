@@ -39,11 +39,11 @@
 
       <p></p>
 
-      <el-row>
+      <!-- <el-row>
         <span>总利润:
           <strong v-text="totalProfits"></strong>
         </span>
-      </el-row>
+      </el-row> -->
 
       <p></p>
 
@@ -59,10 +59,12 @@
         <el-table-column label="预留手机号" prop="MobileNo"></el-table-column>
         <el-table-column label="收款银行" prop="BankName"></el-table-column>
         <el-table-column label="收款人" prop="AcctName"></el-table-column>
-        <el-table-column label="二维码手续费率" prop="TradeRate"></el-table-column>
-        <el-table-column label="二维码手续费" prop="Poundage"></el-table-column>
-        <el-table-column label="协议手续费率" prop="Rate"></el-table-column>
-        <el-table-column label="佣金" prop="Profits"></el-table-column>
+        <el-table-column label="协议费率" prop="Rate"></el-table-column>
+        <el-table-column label="对外费率" prop="TradeRate"></el-table-column>
+        <el-table-column label="费率利润" prop="Poundage"></el-table-column>
+        <el-table-column label="协议手续费" prop="DrawFee"></el-table-column>
+        <el-table-column label="对外手续费" prop="UserDrawFee"></el-table-column>
+        <el-table-column label="手续费利润" prop="DrawFeePoundage"></el-table-column>
         <el-table-column label="状态" prop="State" :formatter="formatter"></el-table-column>
         <el-table-column label="交易时间" prop="TradeTime"></el-table-column>
       </el-table>
@@ -188,7 +190,6 @@ export default {
         )
         .then(
           response => {
-            
             if (response.Data != null && response.Data != undefined) {
               if (response.Status == 100) {
                 this.totalProfits = response.Data;
