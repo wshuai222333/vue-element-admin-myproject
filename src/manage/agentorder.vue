@@ -49,9 +49,9 @@
         <el-table-column label="订单号" prop="TradeOrderId"></el-table-column>
         <el-table-column label="创建时间" prop="CreateTime"></el-table-column>
         <el-table-column label="交易金额" prop="Amount"></el-table-column>
+        <el-table-column label="协议手续费率" prop="AgentRate"></el-table-column>
         <el-table-column label="商户手续费费率" prop="TradeRate"></el-table-column>
         <el-table-column label="商户手续费" prop="Poundage"></el-table-column>
-        <el-table-column label="协议手续费率" prop="AgentRate"></el-table-column>
         <el-table-column label="商户利润" prop="Profits"></el-table-column>
         <el-table-column label="状态" prop="State" :formatter="formatter"></el-table-column>
         <el-table-column label="交易时间" prop="TradeTime"></el-table-column>
