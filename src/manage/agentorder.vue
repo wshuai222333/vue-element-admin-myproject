@@ -37,6 +37,9 @@
       <p></p>
 
       <el-row>
+        <span>总金额:
+          <strong v-text="totalamount"></strong>
+        </span>
         <span>总利润:
           <strong v-text="totalProfits"></strong>
         </span>
@@ -95,7 +98,8 @@ export default {
       tradetimes: [],
       begintime: "",
       endtime: "",
-      totalProfits: 0
+      totalProfits: 0,
+      totalamount:0
     };
   },
   computed: {
@@ -182,14 +186,16 @@ export default {
             State: this.state,
             TradeOrderId: this.orderid,
             BeginTime: this.begintime,
-            EndTime: this.endtime
+            EndTime: this.endtime,
+            
           })
         )
         .then(
           response => {
             if (response.Data != null && response.Data != undefined) {
               if (response.Status == 100) {
-                this.totalProfits = response.Data;
+                this.totalProfits = response.Data.TotalProfits;
+                this.totalamount = response.Data.TotalAmount
               } else {
                 this.$message(response.Message);
               }
