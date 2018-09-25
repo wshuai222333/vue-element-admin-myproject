@@ -36,6 +36,13 @@
           <m-button type="info" @click="onQueryClick(1)">查询</m-button>
         </el-col>
       </el-row>
+      <p></p>
+
+      <el-row>
+        <span>总金额:
+          <strong v-text="totalamount"></strong>
+        </span>
+      </el-row>
 
       <p></p>
 
@@ -92,7 +99,8 @@ export default {
       state: -1,
       tradetimes: [],
       begintime: "",
-      endtime: ""
+      endtime: "",
+      totalamount: 0
     };
   },
   methods: {
@@ -150,6 +158,36 @@ export default {
               if (response.Status == 100) {
                 this.total = response.Data.TotalItems;
                 this.tableData = response.Data.Items;
+              } else {
+                this.$message(response.Message);
+              }
+            } else {
+              this.$message(response.Message);
+            }
+          },
+          error => {
+            this.$message(error);
+            console.log(error);
+          }
+        );
+      this.getQueryTotal();
+    },
+    getQueryTotal: function() {
+      this.$http
+        .post(
+          "/api/Trade/GetTradeTotal",
+          Service.Encrypt.DataEncryption({
+            State: this.state,
+            TradeOrderId: this.orderid,
+            BeginTime: this.begintime,
+            EndTime: this.endtime
+          })
+        )
+        .then(
+          response => {
+            if (response.Data != null && response.Data != undefined) {
+              if (response.Status == 100) {
+                this.totalamount = response.Data.TotalAmount;
               } else {
                 this.$message(response.Message);
               }

@@ -39,11 +39,20 @@
       
       <p></p>
 
-      <!-- <el-row>
-        <span>总利润:
-          <strong v-text="totalProfits"></strong>
+      <el-row>
+        <span>总金额:
+          <strong v-text="totalamount"></strong>
         </span>
-      </el-row> -->
+         <span>总费率利润:
+          <strong v-text="totalprofits"></strong>
+        </span>
+          <span>总手续费利润:
+          <strong v-text="totaldrawfeetotalprofits"></strong>
+        </span>
+          <span>总利润:
+          <strong v-text="totalprofits+totaldrawfeetotalprofits"></strong>
+        </span>
+      </el-row>
 
       <p></p>
       
@@ -55,6 +64,7 @@
             <span style="margin-left: 10px">{{ scope.row.TradeOrderId }}</span>
           </template>
         </el-table-column>
+        <el-table-column label="用户编号" prop="UserAccountId"></el-table-column>
         <el-table-column label="金额" prop="Amount"></el-table-column>
         <el-table-column label="预留手机号" prop="MobileNo"></el-table-column>
         <el-table-column label="收款银行" prop="BankName"></el-table-column>
@@ -102,10 +112,12 @@ export default {
         }
       ],
       state: -1,
-      totalProfits: 0,
+      totalprofits: 0,
       tradetimes: [],
       begintime: "",
-      endtime: ""
+      endtime: "",
+      totalamount:0,
+      totaldrawfeetotalprofits:0
     };
   },
   methods: {
@@ -178,6 +190,7 @@ export default {
       this.getQueryTotal();
     },
     getQueryTotal: function() {
+      debugger;
       this.$http
         .post(
           "/api/Trade/GetTradeTotal",
@@ -185,14 +198,17 @@ export default {
             State: this.state,
             TradeOrderId: this.orderid,
             BeginTime: this.begintime,
-            EndTime: this.endtime
+            EndTime: this.endtime,
+            IsQrcode: 1
           })
         )
         .then(
           response => {
             if (response.Data != null && response.Data != undefined) {
               if (response.Status == 100) {
-                this.totalProfits = response.Data;
+                this.totalamount = response.Data.TotalAmount;
+                this.totalprofits = response.Data.TotalProfits;
+                this.totaldrawfeetotalprofits = response.Data.TotalDrawFeeTotalProfits;
               } else {
                 this.$message(response.Message);
               }

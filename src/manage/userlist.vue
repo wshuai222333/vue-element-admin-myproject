@@ -9,6 +9,9 @@
     </div>
     <div class="box">
       <el-row>
+         <el-col :span="8"> 用户编号:
+          <m-input placeholder="用户编号" v-model="userid" />
+        </el-col>
         <el-col :span="8"> 用户名:
           <m-input placeholder="用户名" v-model="username" />
         </el-col>
@@ -21,6 +24,7 @@
       <p></p>
       <el-table :data="tableData">
         <el-table-column label="#" type="index"></el-table-column>
+        <el-table-column label="用户编号" prop="UserAccountId"></el-table-column>
         <el-table-column label="用户名" prop="UserName"></el-table-column>
         <el-table-column label="电话" prop="Phone"></el-table-column>
         <el-table-column label="注册时间" prop="CreateTime"></el-table-column>
@@ -86,6 +90,7 @@ export default {
     return {
       username: "",
       phone: "",
+      userid:"",
       tableData: [],
       total: 0,
       dialogFormVisible: false,
@@ -136,6 +141,7 @@ export default {
           Service.Encrypt.DataEncryption({
             UserName: this.username,
             Phone: this.phone,
+            UserAccountId:this.userid,
             pageindex: pageindex,
             pagesize: 10
           })
