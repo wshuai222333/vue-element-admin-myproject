@@ -1,78 +1,81 @@
 <template>
-    <div class="page-body">
-        <div class="page-header">
-            <h1 class="page-title">用户管理</h1>
-            <el-breadcrumb>
-                <el-breadcrumb-item :to="{path: '/'}">首页</el-breadcrumb-item>
-                <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-        <div class="box">
-            <el-row>
-                <!-- <el-col :span="8"> 用户名:
+  <div class="page-body">
+    <div class="page-header">
+      <h1 class="page-title">用户管理</h1>
+      <el-breadcrumb>
+        <el-breadcrumb-item :to="{path: '/'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <div class="box">
+      <el-row>
+        <!-- <el-col :span="8"> 用户名:
           <m-input placeholder="用户名" v-model="username" />
         </el-col>
         <el-col :span="8"> 手机号:
           <m-input placeholder="手机号" v-model="phone" />
         </el-col>
         <m-button type="info" @click="onQueryClick(1)">查询</m-button> -->
-                <m-button type="info" @click="dialogFormVisible = true">添加</m-button>
-            </el-row>
+        <m-button type="info" @click="dialogFormVisible = true">添加</m-button>
+      </el-row>
 
-            <p></p>
-            <el-table :data="tableData">
-                <el-table-column label="#" type="index"></el-table-column>
-                <el-table-column label="商户编号" prop="AgentId"></el-table-column>
-                <el-table-column label="商户名称" prop="MerchantName"></el-table-column>
-                <el-table-column label="创建时间" prop="CreateTime"></el-table-column>
-                <el-table-column label="协议费率" prop="Rate"></el-table-column>
-                <el-table-column label="电话" prop="Phone"></el-table-column>
-                <el-table-column label="UserKey" prop="UserKey"></el-table-column>
-                <el-table-column fixed="right" label="操作" width="100">
-                    <template slot-scope="scope">
-                        <el-button type="text" size="small" @click="onClickModify(scope.row)">编辑</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <el-pagination background layout="total,prev, pager, next" :total="total" @current-change="handleCurrentChange">
-            </el-pagination>
-        </div>
-        <el-dialog title="添加商户" :visible.sync="dialogFormVisible">
-            <el-form :model="form">
-                <el-form-item label="商户名称" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="协议费率" :label-width="formLabelWidth">
-                    <el-input v-model="form.rate" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="电话" :label-width="formLabelWidth">
-                    <el-input v-model="form.phone" auto-complete="off"></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="onClickAdd(0)">确 定</el-button>
-            </div>
-        </el-dialog>
-        <el-dialog title="修改商户" :visible.sync="dialogMFormVisible">
-            <el-form :model="form">
-                <el-form-item label="商户名称" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="协议费率" :label-width="formLabelWidth">
-                    <el-input v-model="form.rate" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="电话" :label-width="formLabelWidth">
-                    <el-input v-model="form.phone" auto-complete="off"></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="onClickAdd(form.agentid)">确 定</el-button>
-            </div>
-
-        </el-dialog>
+      <p></p>
+      <el-table :data="tableData">
+        <el-table-column label="#" type="index"></el-table-column>
+        <el-table-column label="商户编号" prop="AgentId"></el-table-column>
+        <el-table-column label="商户名称" prop="MerchantName"></el-table-column>
+        <el-table-column label="创建时间" prop="CreateTime"></el-table-column>
+        <el-table-column label="协议费率" prop="Rate"></el-table-column>
+        <el-table-column label="电话" prop="Phone"></el-table-column>
+        <el-table-column label="状态" prop="State" :formatter="formatter"></el-table-column>
+        <el-table-column label="UserKey" prop="UserKey"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="100">
+          <template slot-scope="scope">
+            <el-button type="text" size="small" @click="onClickModify(scope.row)">编辑</el-button>
+            <el-button type="text" size="small" v-if="scope.row.State==1" @click="onClickModifyState(scope.row,0)">禁用</el-button>
+            <el-button type="text" size="small" v-if="scope.row.State==0" @click="onClickModifyState(scope.row,1)">启用</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination background layout="total,prev, pager, next" :total="total" :current-page="currentPage" @current-change="handleCurrentChange">
+      </el-pagination>
     </div>
+    <el-dialog title="添加商户" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="商户名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="协议费率" :label-width="formLabelWidth">
+          <el-input v-model="form.rate" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="电话" :label-width="formLabelWidth">
+          <el-input v-model="form.phone" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="onClickAdd(0)">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="修改商户" :visible.sync="dialogMFormVisible">
+      <el-form :model="form">
+        <el-form-item label="商户名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="协议费率" :label-width="formLabelWidth">
+          <el-input v-model="form.rate" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="电话" :label-width="formLabelWidth">
+          <el-input v-model="form.phone" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="onClickAdd(form.agentid)">确 定</el-button>
+      </div>
+
+    </el-dialog>
+  </div>
 
 </template>
 
@@ -91,15 +94,32 @@ export default {
         phone: "",
         agentid: ""
       },
-      formLabelWidth: "100px"
+      formLabelWidth: "100px",
+      currentPage: 1
     };
   },
   methods: {
+    formatter(row, column) {
+      var msg = "";
+      switch (parseInt(row.State)) {
+        case 1:
+          msg = "启用";
+          break;
+        case 0:
+          msg = "禁用";
+          break;
+        default:
+          msg = "未知状态";
+          break;
+      }
+      return msg;
+    },
     handleCurrentChange(val) {
       this.onQueryClick(val);
     },
 
     onQueryClick: function(pageindex) {
+      this.currentPage = pageindex;
       this.$http
         .post(
           "/api/Agent/AgentList",
@@ -132,15 +152,45 @@ export default {
         );
     },
     onClickModify(agent) {
-      //   debugger;
       this.dialogMFormVisible = true;
       this.form.name = agent.MerchantName;
       this.form.rate = agent.Rate;
       this.form.phone = agent.Phone;
       this.form.agentid = agent.AgentId;
     },
+    onClickModifyState(agent,state) {
+      this.$http
+        .post(
+          "/api/Agent/AgentModifyState",
+          Service.Encrypt.DataEncryption({
+            State: state,
+            AgentModifyId: agent.AgentId
+          })
+        )
+        .then(
+          response => {
+            if (
+              response.Data &&
+              response.Data != null &&
+              response.Data != undefined
+            ) {
+              if (response.Data > 0) {
+                this.$message("商户状态修改成功!");
+                this.onQueryClick(1);
+              } else {
+                this.$message(response.Message);
+              }
+            } else {
+              this.$message(response.Message);
+            }
+          },
+          error => {
+            this.$message(error);
+            console.log(error);
+          }
+        );
+    },
     onClickAdd(agentid) {
-      debugger;
       this.$http
         .post(
           "/api/Agent/AddAgent",
