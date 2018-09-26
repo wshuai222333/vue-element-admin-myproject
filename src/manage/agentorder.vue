@@ -99,7 +99,7 @@ export default {
       begintime: "",
       endtime: "",
       totalProfits: 0,
-      totalamount:0
+      totalamount: 0
     };
   },
   computed: {
@@ -155,7 +155,6 @@ export default {
         )
         .then(
           response => {
-            debugger;
             if (
               response.Data &&
               response.Data != null &&
@@ -186,8 +185,7 @@ export default {
             State: this.state,
             TradeOrderId: this.orderid,
             BeginTime: this.begintime,
-            EndTime: this.endtime,
-            
+            EndTime: this.endtime
           })
         )
         .then(
@@ -195,7 +193,7 @@ export default {
             if (response.Data != null && response.Data != undefined) {
               if (response.Status == 100) {
                 this.totalProfits = response.Data.TotalProfits;
-                this.totalamount = response.Data.TotalAmount
+                this.totalamount = response.Data.TotalAmount;
               } else {
                 this.$message(response.Message);
               }

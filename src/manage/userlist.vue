@@ -57,7 +57,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination background layout="total,prev, pager, next" :total="total" @current-change="handleCurrentChange">
+      <el-pagination background layout="total,prev, pager, next" :current-page="currentPage" :total="total" @current-change="handleCurrentChange">
       </el-pagination>
     </div>
     <el-dialog title="二维码权限" :visible.sync="dialogFormVisible">
@@ -110,7 +110,8 @@ export default {
           value: 1,
           label: "有"
         }
-      ]
+      ],
+      currentPage:1
     };
   },
   methods: {
@@ -134,6 +135,7 @@ export default {
     },
 
     onQueryClick: function(pageindex) {
+      this.currentPage = pageindex;
       //添加交易请求
       this.$http
         .post(
