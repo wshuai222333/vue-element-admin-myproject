@@ -71,7 +71,8 @@
         <el-table-column label="收款人" prop="AcctName"></el-table-column>
         <el-table-column label="协议费率" prop="Rate"></el-table-column>
         <el-table-column label="对外费率" prop="TradeRate"></el-table-column>
-        <el-table-column label="费率利润" prop="Poundage"></el-table-column>
+        <el-table-column label="总费率手续费" prop="Poundage"></el-table-column>
+        <el-table-column label="费率利润" prop="Profits"></el-table-column>
         <el-table-column label="协议手续费" prop="DrawFee"></el-table-column>
         <el-table-column label="对外手续费" prop="UserDrawFee"></el-table-column>
         <el-table-column label="手续费利润" prop="DrawFeePoundage"></el-table-column>
