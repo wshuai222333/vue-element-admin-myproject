@@ -50,6 +50,7 @@
       <el-table :data="tableData">
         <el-table-column label="#" type="index"></el-table-column>
         <el-table-column label="订单号" prop="TradeOrderId"></el-table-column>
+        <el-table-column label="商户名称" prop="AgentId" :formatter="formattername"></el-table-column>
         <el-table-column label="创建时间" prop="CreateTime"></el-table-column>
         <el-table-column label="交易金额" prop="Amount"></el-table-column>
         <el-table-column label="协议手续费率" prop="AgentRate"></el-table-column>
@@ -123,6 +124,21 @@ export default {
           break;
         default:
           msg = "未知状态";
+          break;
+      }
+      return msg;
+    },
+     formattername(row, column) {
+      var msg = "";
+      switch (parseInt(row.AgentId)) {
+        case 100004:
+          msg = "福建酷酷";
+          break;
+        case 100003:
+          msg = "随身汇";
+          break;
+        default:
+          msg = "未知商户";
           break;
       }
       return msg;

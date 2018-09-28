@@ -114,6 +114,7 @@ export default {
       }
       return msg;
     },
+   
     handleCurrentChange(val) {
       this.onQueryClick(val);
     },
